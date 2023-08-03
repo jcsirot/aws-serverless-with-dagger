@@ -1,0 +1,50 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  aws-serverless-with-dagger
+
+  A simple AWS serverless stack template deployed with Dagger.io
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 20
+    MemorySize: 512
+
+Parameters:
+  translateFunc:
+    Type: String
+    Description: translate function image address
+
+Resources:
+  TranslateFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      PackageType: Image
+      ImageUri: !Sub '${translateFunc}'
+      Architectures:
+        - x86_64
+      MemorySize: 512
+      Policies:
+        - TranslateReadOnly
+        - ComprehendReadOnly
+      Events:
+        Translate:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /translate
+            Method: get
+
+Outputs:
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+  TranslateApi:
+    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/translate/"
+  TranslateFunction:
+    Description: "Translate Lambda Function ARN"
+    Value: !GetAtt TranslateFunction.Arn
+  TranslateFunctionIamRole:
+    Description: "Implicit IAM Role created for Translate function"
+    Value: !GetAtt TranslateFunctionRole.Arn
