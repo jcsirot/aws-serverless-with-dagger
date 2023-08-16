@@ -1,4 +1,4 @@
-# sample-aws-serverless
+# Deplay an AWS serverless application with Dagger
 
 This project contains a [Dagger](https://dagger.io/) AWS Serverless Demo project! In this
 repository, you'll find everything you need to showcase the integration of Dagger with an AWS
