@@ -1,3 +1,3 @@
 #! /bin/sh -eux
 
-mvn -f ci/pom.xml -Pdeploy exec:java
+mvn -f ci/pom.xml -Pdeploy compile exec:java

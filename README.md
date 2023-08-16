@@ -43,12 +43,12 @@ Setting the AWS region is optional, default is `eu-west-2`.
 
 Run this command to deploy the stack
 ```shell
-mvn -f ci/pom.xml -Pdeploy exec:java
+mvn -f ci/pom.xml -Pdeploy compile exec:java
 ```
 
 This command deletes an existing stack
 ```shell
-mvn -f ci/pom.xml -Pdelete exec:java
+mvn -f ci/pom.xml -Pdelete compile exec:java
 ```
 
 
