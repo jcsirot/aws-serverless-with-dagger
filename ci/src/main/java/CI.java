@@ -184,7 +184,7 @@ public class CI {
     for (Entry<String, String> image: images.entrySet()) {
       cmd.add(String.format("%sFunc=%s", image.getKey(), image.getValue()));
     }
-    client.container().from("jcsirot/aws-sam-java17")
+    client.container().from("public.ecr.aws/sam/build-java17")
         .withEnvVariable("AWS_ACCESS_KEY_ID", System.getenv("AWS_ACCESS_KEY_ID"))
         .withSecretVariable("AWS_SECRET_ACCESS_KEY", awsSecret)
         .withDirectory("/app", build.directory("/app"))
