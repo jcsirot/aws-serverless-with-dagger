@@ -8,6 +8,9 @@ import software.amazon.awssdk.services.translate.model.TranslateTextResponse;
 import translate.ports.out.TranslateService;
 import translate.ports.out.TranslateServiceException;
 
+/**
+ * This {@code TranslateService} calls AWS Translate via a {@code TranslateClient}
+ */
 @Singleton
 public class AWSTranslateService implements TranslateService {
 

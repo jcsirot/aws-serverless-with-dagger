@@ -57,12 +57,7 @@ public class App implements
       Translation translation =
           sourceLang == null ? translateTextUseCase.translate(query, targetLang)
               : translateTextUseCase.translate(query, targetLang, sourceLang);
-      String output = String.format(
-          "{ \"message\": \"%s\", \"sourceLang\":\"%s\", \"targetLang\":\"%s\", \"translation\": \"%s\" }",
-          query, translation.sourceLang(), targetLang, translation.translatedText());
-      return response
-          .withStatusCode(200)
-          .withBody(output);
+      return success(response, translation);
     } catch (TranslateServiceException te) {
       return error400(response, te.getMessage());
     } catch (Exception e) {
@@ -86,6 +81,17 @@ public class App implements
     String output = String.format("{ \"error\": \"%s\"}", message);
     return response
         .withStatusCode(code)
+        .withBody(output);
+  }
+
+  private static APIGatewayProxyResponseEvent success(APIGatewayProxyResponseEvent response,
+      Translation translation) {
+    String output = String.format(
+        "{ \"message\": \"%s\", \"sourceLang\":\"%s\", \"targetLang\":\"%s\", \"translation\": \"%s\" }",
+        translation.sourceText(), translation.sourceLang(), translation.targetLang(),
+        translation.translatedText());
+    return response
+        .withStatusCode(200)
         .withBody(output);
   }
 }

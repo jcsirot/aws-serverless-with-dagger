@@ -2,10 +2,10 @@ package translate.adapters.in;
 
 import javax.inject.Inject;
 import translate.model.Translation;
-import translate.ports.out.TranslateService;
-import translate.ports.out.TranslateServiceException;
 import translate.ports.in.TranslateTextUseCase;
 import translate.ports.out.LangDetector;
+import translate.ports.out.TranslateService;
+import translate.ports.out.TranslateServiceException;
 
 public class TranslateTextUseCaseAdapter implements TranslateTextUseCase {
 
@@ -22,7 +22,7 @@ public class TranslateTextUseCaseAdapter implements TranslateTextUseCase {
   public Translation translate(String text, String targetLang, String sourceLang)
       throws TranslateServiceException {
     String translatedText = translateService.translate(text, sourceLang, targetLang);
-    return new Translation(text, sourceLang, translatedText, translatedText);
+    return new Translation(text, sourceLang, targetLang, translatedText);
   }
 
   @Override
@@ -31,6 +31,4 @@ public class TranslateTextUseCaseAdapter implements TranslateTextUseCase {
         .orElseThrow(() -> new TranslateServiceException("Could not detect input main language"));
     return translate(text, targetLang, sourceLang);
   }
-
-
 }
